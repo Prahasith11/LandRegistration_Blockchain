@@ -33,7 +33,41 @@ export default class Maps extends React.Component {
       email: props.navigation.getParam('email','nothing'),
       land: props.navigation.getParam('land','nothing'),
       requested: false,
-      MapView: 'standard'
+      MapView: 'standard',
+      landDetails:[],
+      history: false
+    }
+  }
+
+  componentDidMount = async  => {
+    this.getDataB();
+  }
+
+  async getDataB() {
+   
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer '+ 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTE4ODg3MjgsInVzZXJuYW1lIjoicHJhaGFzaXRoMTFAZ21haWwuY29tIiwicGFzc3dvcmQiOiJwdyIsImlhdCI6MTU5MTg1MjcyOH0.A1B5RB2F89sK6GylUEPOw69X0IxpXKjzeDVfBIMZ_Ds'
+    }
+
+    const body = {
+      fcn: "getHistoryForAsset",
+      peer: "peer0.org1.example.com",
+      args: ["Library"]
+    }
+    
+    try {
+      let response = await axios.post('http://192.168.42.102:4000/query/channels/mychannel/chaincodes/fabcar', body, {
+        headers: headers
+      })
+      
+      
+      this.setState({
+        landDetails: response.data
+      })
+
+    } catch (error) {
+      alert(JSON.stringify(error))
     }
   }
 
@@ -223,6 +257,17 @@ export default class Maps extends React.Component {
       })}} title = "Request Buy"> </Button>:
       <Text> Already Requested or You are the owner</Text>
      }
+
+     <Button
+       title = "View History"
+       onPress = {() => {
+         this.setState({
+           history:true
+         })
+       }}>
+     </Button>
+
+      { this.state.history? <Text> {JSON.stringify(this.state.landDetails)}</Text>:null }
      
       
    </ScrollView>);
