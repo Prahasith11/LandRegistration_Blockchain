@@ -18,10 +18,6 @@ import Background from '../bg.jpg';
 const axios = require('axios');
 
 
- 
-
-
-
 const AnimatedInput = Animated.createAnimatedComponent(TextInput);
 export default class Login extends Component<props,state> {
 
@@ -70,13 +66,13 @@ export default class Login extends Component<props,state> {
         }
         const headers = {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer '+'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTE1NDExNTUsInVzZXJuYW1lIjoicHJhaGFzaXRoMTFAZ21haWwuY29tIiwicGFzc3dvcmQiOiJwdyIsImlhdCI6MTU5MTUwNTE1NX0.y6uf2HbUIS48xtiTwZ6o-fHMLX7rdbF7lQ225Z6Cf3k'
+            'Authorization': 'Bearer '+'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTE4ODg3MjgsInVzZXJuYW1lIjoicHJhaGFzaXRoMTFAZ21haWwuY29tIiwicGFzc3dvcmQiOiJwdyIsImlhdCI6MTU5MTg1MjcyOH0.A1B5RB2F89sK6GylUEPOw69X0IxpXKjzeDVfBIMZ_Ds'
           }
 
         let response = await axios.post('http://192.168.42.102:4000/login',userDetails,{
             headers: headers
         })
-       
+
         if(response.data.message == true){
             this.props.navigation.navigate('MainScreen',{email:userDetails.username})
         }

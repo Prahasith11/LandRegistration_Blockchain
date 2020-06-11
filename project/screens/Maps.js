@@ -1,5 +1,5 @@
 import MapView, { PROVIDER_GOOGLE, Polygon, Marker } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
-import {View,Text,ScrollView,StyleSheet,Button} from 'react-native';
+import {View,Text,ScrollView,StyleSheet,Button,Switch} from 'react-native';
 import React,{Component} from 'react';
 import { AsyncStorage } from 'react-native';
 
@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
 const axios = require('axios');
 
 
+
 export default class Maps extends React.Component {
 
   constructor(props){
@@ -31,7 +32,21 @@ export default class Maps extends React.Component {
       showPolygon: false,
       email: props.navigation.getParam('email','nothing'),
       land: props.navigation.getParam('land','nothing'),
-      requested: false
+      requested: false,
+      MapView: 'standard'
+    }
+  }
+
+  toggelMap = () => {
+    if(this.state.MapView == 'standard'){
+      this.setState({
+        MapView:'satellite'
+      })
+    }
+    else{
+      this.setState({
+        MapView:'standard'
+      })
     }
   }
 
@@ -141,6 +156,7 @@ export default class Maps extends React.Component {
      { <MapView
        provider={PROVIDER_GOOGLE} // remove if not using Google Maps
        style={styles.map}
+       mapType = {this.state.MapView}
        onPress = {(event) =>{
          this.plotMap(event)
        }}
@@ -190,6 +206,9 @@ export default class Maps extends React.Component {
         
      
      <View>
+     <Button onPress = {() => {this.toggelMap()}}
+      title = "Toggle MapView"> </Button>
+
        <Text> Details of the Owner:</Text>
        <Text> Name:  {this.state.land.Record.email}</Text>
            
